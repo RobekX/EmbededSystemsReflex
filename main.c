@@ -20,7 +20,7 @@
 #include <ea_init.h>
 #include <stdlib.h>
 
-#include "lcd.h"
+#include "lcd.h" // adds lcd class
 #include "key.h"
 #include "uart.h"
 #include "hw.h"
