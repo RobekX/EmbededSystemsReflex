@@ -41,6 +41,7 @@
  * Typedefs and defines
  *****************************************************************************/
 #define PROC1_STACK_SIZE 800
+#define LED_PROC_STACK_SIZE 200
 #define INIT_STACK_SIZE  600
 
 
@@ -54,8 +55,10 @@ volatile tU32 ms;
  * Local variables
  ****************************************************************************/
 static tU8 proc1Stack[PROC1_STACK_SIZE];
+static tU8 ledProcStack[LED_PROC_STACK_SIZE];
 static tU8 initStack[INIT_STACK_SIZE];
 static tU8 pid1;
+static tU8 pid2;
 
 static tU8 contrast = 56;
 static tU8 cursor   = 0;
@@ -262,6 +265,28 @@ proc1(void* arg)
   }
 }
 
+/*****************************************************************************
+ *
+ * Description:
+ *    A process to make LEDs light in a specified maner
+ *
+ * Params:
+ *    [in] arg - This parameter is not used in this application.
+ *
+ ****************************************************************************/
+static void
+ledProc(void* arg) {
+	while(TRUE){
+		setLED(LED_GREEN, TRUE);
+		osSleep(10);
+		setLED(LED_RED, TRUE);
+		osSleep(10);
+		setLED(LED_GREEN, FALSE);
+		osSleep(10);
+		setLED(LED_RED, FALSE);
+		osSleep(10);
+	}
+}
 
 /*****************************************************************************
  *
@@ -310,6 +335,17 @@ initProc(void* arg)
   osCreateProcess(proc1, proc1Stack, PROC1_STACK_SIZE, &pid1, 3, NULL, &error);
   osStartProcess(pid1, &error);
   
+  if(error != OS_OK) {
+	  error();
+  }
+
+  osCreateProcess(ledProc, ledProcStack, LED_PROC_STACK_SIZE, &pid2, 3, NULL, &error);
+  osStartProcess(pid2, &error);
+
+  if(error != OS_OK) {
+  	  error();
+    }
+
   initKeyProc();
 
   osDeleteProcess();
@@ -333,7 +369,13 @@ appTick(tU32 elapsedTime)
   ms += elapsedTime;
 }
 
+void error() {
+	lcdColor(0,0xff); // main BG
+	lcdClrscr();
 
+	lcdGotoxy(30,50);
+	lcdPuts("ERROR"); // menu title
+}
 
 
 
