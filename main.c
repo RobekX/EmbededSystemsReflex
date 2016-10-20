@@ -142,7 +142,7 @@ drawMenu(void)
   lcdRect(14, 0, 102, 128, 0x6d); // menu title BG
   lcdRect(15, 17, 100, 110, 0); //inner menu BG
 
-  lcdGotoxy(48,1);
+  lcdGotoxy(31,1);// position of title
   lcdColor(0x6d,0);
   lcdPuts("MAIN MENU"); // menu title
   drawMenuCursor(cursor);
@@ -158,8 +158,7 @@ drawMenu(void)
  *    [in] arg - This parameter is not used in this application. 
  *
  ****************************************************************************/
-static void
-proc1(void* arg)
+static void proc1(void* arg)
 {
   //shortly bleep with the buzzer and flash with the LEDs
   tU8 i,j;
@@ -170,6 +169,20 @@ proc1(void* arg)
     {
       setBuzzer(TRUE);
       setLED(LED_GREEN, FALSE);
+      setLED(LED_RED,   TRUE);
+      osSleep(1);
+      setLED(LED_RED,   TRUE);
+      osSleep(1);
+      setLED(LED_RED,   FALSE);
+      osSleep(3);
+      setLED(LED_RED,   TRUE);
+      osSleep(1);
+      setLED(LED_RED,   FALSE);
+      osSleep(2);
+      setLED(LED_RED,   TRUE);
+      osSleep(1);
+      setLED(LED_RED,   FALSE);
+      osSleep(5);
       setLED(LED_RED,   TRUE);
       osSleep(1);
 
@@ -214,24 +227,24 @@ proc1(void* arg)
       }
       
       //move cursor up
-      else if (anyKey == KEY_UP)
-      {
-        if (cursor > 0)
-          cursor--;
-        else
-          cursor = 0;
-        drawMenuCursor(cursor);
-      }
+      //else if (anyKey == KEY_UP)
+      //{
+      //  if (cursor > 0)
+      //    cursor--;
+      //  else
+      //    cursor = 0;
+      //  drawMenuCursor(cursor);
+      //}
       
       //move cursor down
-      else if (anyKey == KEY_DOWN)
-      {
-        if (cursor < 0)
-          cursor++;
-        else
-          cursor = 0;
-        drawMenuCursor(cursor);
-      }
+      //else if (anyKey == KEY_DOWN)
+      //{
+      //  if (cursor < 0)
+      //    cursor++;
+      //  else
+      //    cursor = 0;
+      //  drawMenuCursor(cursor);
+      //}
       
       //adjust contrast
       else if (anyKey == KEY_RIGHT)
