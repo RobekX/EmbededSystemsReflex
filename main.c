@@ -117,11 +117,11 @@ drawMenuCursor(tU8 cursor)
     
     switch(row)
     {
-      case 0: lcdPuts("Nothing");
+      case 0: lcdPuts("play Reflex");
 			  break;
-      case 1: lcdPuts("Something");
-			  break;
-      default: break;
+      
+      default: 
+      break;
     }
   }
 }
@@ -144,7 +144,7 @@ drawMenu(void)
 
   lcdGotoxy(48,1);
   lcdColor(0x6d,0);
-  lcdPuts("MENU"); // menu title
+  lcdPuts("MAIN MENU"); // menu title
   drawMenuCursor(cursor);
 }
 
@@ -203,8 +203,12 @@ proc1(void* arg)
       {
         switch(cursor)
         {
-          case 0: /*include behaviour*/ break;
-          default: break;
+          case 0: 
+          
+            playReflex();
+            break;
+          default: 
+          break;
         }
         drawMenu();
       }
@@ -215,14 +219,14 @@ proc1(void* arg)
         if (cursor > 0)
           cursor--;
         else
-          cursor = 3;
+          cursor = 0;
         drawMenuCursor(cursor);
       }
       
       //move cursor down
       else if (anyKey == KEY_DOWN)
       {
-        if (cursor < 3)
+        if (cursor < 0)
           cursor++;
         else
           cursor = 0;
