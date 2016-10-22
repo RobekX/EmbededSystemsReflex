@@ -16,7 +16,7 @@ void reflex()
 		lcdColor(0,0);
 		lcdClrscr();
 		
-		arrowNr=rand()%4;
+		arrowNr=rand()%4 + 1;
 		switch(arrowNr)
 		{
 			case 1:
@@ -36,7 +36,7 @@ void reflex()
 		}
 		key=checkKey(); 
 		lcdGotoxy(20,115);
-		lcdColor(0,0);
+		lcdColor(0x00,0xfd);
 		if (key == keyList[arrowNr])
 		{
 			lcdPuts("AWESOME!");
