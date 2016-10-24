@@ -221,7 +221,7 @@ static void proc1(void* arg)
         {
           case 0: 
           
-            playReflex();
+            reflex();
             break;
           default: 
           break;
