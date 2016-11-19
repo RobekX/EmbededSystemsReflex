@@ -58,11 +58,15 @@ CSRCS   = main.c               \
           eeprom.c             \
           i2c.c                \
           hw.c                 \
+<<<<<<< Updated upstream
 		  arrows.c             \
 		  arrow_down_57x102.c  \
 		  arrow_up_57x102.c    \
 		  arrow_left_102x57.c  \
 		  arrow_right_102x57.c \
+=======
+		  arrows.c             
+>>>>>>> Stashed changes
           
           
 # List assembler source files here

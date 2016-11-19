@@ -50,7 +50,6 @@
  ****************************************************************************/
 volatile tU32 ms;
 
-
 /*****************************************************************************
  * Local variables
  ****************************************************************************/
@@ -69,7 +68,7 @@ static tU8 cursor   = 0;
  ****************************************************************************/
 static void proc1(void* arg);
 static void initProc(void* arg);
-
+void errorFun();
 
 /*****************************************************************************
  *
@@ -220,8 +219,16 @@ static void proc1(void* arg)
         switch(cursor)
         {
           case 0: 
+<<<<<<< Updated upstream
           
             reflex();
+=======
+            reflex();
+			
+			
+			
+			
+>>>>>>> Stashed changes
             break;
           default: 
           break;
@@ -229,6 +236,7 @@ static void proc1(void* arg)
         drawMenu();
       }
       
+<<<<<<< Updated upstream
       //move cursor up
       //else if (anyKey == KEY_UP)
       //{
@@ -249,6 +257,8 @@ static void proc1(void* arg)
       //  drawMenuCursor(cursor);
       //}
       
+=======
+>>>>>>> Stashed changes
       //adjust contrast
       else if (anyKey == KEY_RIGHT)
       {
@@ -266,7 +276,7 @@ static void proc1(void* arg)
     }
 
 #ifdef INCLUDE_MENU_FIRE
-    switch(i)
+    /*switch(i)
     {
       case 0: lcdIcon(15, 88, 100, 40, _fire_0_100x40c[2], _fire_0_100x40c[3], &_fire_0_100x40c[4]); i++; break;
       case 1: lcdIcon(15, 88, 100, 40, _fire_1_100x40c[2], _fire_1_100x40c[3], &_fire_1_100x40c[4]); i++; break;
@@ -276,7 +286,7 @@ static void proc1(void* arg)
       case 5: lcdIcon(15, 88, 100, 40, _fire_5_100x40c[2], _fire_5_100x40c[3], &_fire_5_100x40c[4]); i++; break;
       case 6: lcdIcon(15, 88, 100, 40, _fire_6_100x40c[2], _fire_6_100x40c[3], &_fire_6_100x40c[4]); i = 0; break;
       default: i = 0; break;
-    }
+    }*/
 #endif
     osSleep(20);
   }
@@ -297,9 +307,9 @@ ledProc(void* arg) {
 		setLED(LED_GREEN, TRUE);
 		osSleep(10);
 		setLED(LED_RED, TRUE);
-		osSleep(10);
+		osSleep(20);
 		setLED(LED_GREEN, FALSE);
-		osSleep(10);
+		osSleep(20);
 		setLED(LED_RED, FALSE);
 		osSleep(10);
 	}
@@ -353,16 +363,16 @@ initProc(void* arg)
   osStartProcess(pid1, &error);
   
   if(error != OS_OK) {
-	  error();
+	  errorFun();
   }
 
   osCreateProcess(ledProc, ledProcStack, LED_PROC_STACK_SIZE, &pid2, 3, NULL, &error);
   osStartProcess(pid2, &error);
 
   if(error != OS_OK) {
-  	  error();
+  	  errorFun();
     }
-
+  
   initKeyProc();
 
   osDeleteProcess();
@@ -386,7 +396,7 @@ appTick(tU32 elapsedTime)
   ms += elapsedTime;
 }
 
-void error() {
+void errorFun() {
 	lcdColor(0,0xff); // main BG
 	lcdClrscr();
 
