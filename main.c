@@ -1,4 +1,3 @@
-
 #include "../pre_emptive_os/api/osapi.h"
 #include "../pre_emptive_os/api/general.h"
 #include <printf_P.h>
@@ -7,10 +6,8 @@
 
 #include "lcd.h"
 #include "key.h"
-#include "uart.h"
 #include "hw.h"
 #include "version.h"
-#include "configAppl.h"
 
 #define INIT_STACK_SIZE  600
 static tU8 initStack[INIT_STACK_SIZE];
@@ -35,18 +32,20 @@ static void drawMenuCursor(tU8 cursor);
 void errorFun();
 void appTick(tU32 elapsedTime);
 
-int main(void) {
+int
+main(void)
+{
   tU8 error;
   tU8 pid;
-
+  
   osInit();
 
   //immediate initilaizeation of hardware I/O pins
   immediateIoInit();
-
+  
   osCreateProcess(initProc, initStack, INIT_STACK_SIZE, &pid, 1, NULL, &error);
   osStartProcess(pid, &error);
-
+  
   osStart();
   return error;
 }
@@ -70,20 +69,20 @@ static void initProc(void* arg) {
   eaInit();
 
   printf("EmbedeSystems Reflex game.\n"
-  "TEST\n");
+		  "TEST\n");
 
   osCreateProcess(proc1, proc1Stack, PROC1_STACK_SIZE, &pid1, 3, NULL, &error);
   osStartProcess(pid1, &error);
 
   if(error != OS_OK) {
-  errorFun("There was an error with proc1 process.");
+	  errorFun("There was an error with proc1 process.");
   }
 
   osCreateProcess(ledProc, ledProcStack, LED_PROC_STACK_SIZE, &pid2, 3, NULL, &error);
   osStartProcess(pid2, &error);
 
   if(error != OS_OK) {
-    errorFun("There was an error with ledProc process.");
+  	  errorFun("There was an error with ledProc process.");
     }
 
   initKeyProc();
@@ -132,7 +131,7 @@ static void proc1(void* arg) {
   lcdInit();
 
   drawMenu();
-
+  
   while(true)
   {
     tU8 anyKey;
@@ -146,19 +145,19 @@ static void proc1(void* arg) {
       {
         switch(cursor)
         {
-          case 0:
+          case 0: 
             reflex();
-
-
-
-
+			
+			
+			
+			
             break;
-          default:
-        break;
+          default: 
+        	break;
         }
         drawMenu();
       }
-
+      
       //adjust contrast
       else if (anyKey == KEY_RIGHT)
       {
@@ -180,16 +179,16 @@ static void proc1(void* arg) {
 }
 
 static void ledProc(void* arg) {
-  while(TRUE){
-    setLED(LED_GREEN, TRUE);
-    osSleep(10);
-    setLED(LED_RED, TRUE);
-    osSleep(20);
-    setLED(LED_GREEN, FALSE);
-    osSleep(20);
-    setLED(LED_RED, FALSE);
-    osSleep(10);
-  }
+	while(TRUE){
+		setLED(LED_GREEN, TRUE);
+		osSleep(10);
+		setLED(LED_RED, TRUE);
+		osSleep(20);
+		setLED(LED_GREEN, FALSE);
+		osSleep(20);
+		setLED(LED_RED, FALSE);
+		osSleep(10);
+	}
 }
 
 static void drawMenuCursor(tU8 cursor) {
@@ -206,7 +205,7 @@ static void drawMenuCursor(tU8 cursor) {
     switch(row)
     {
       case 0: lcdPuts("play Reflex");
-  break;
+			  break;
 
       default:
       break;
@@ -215,15 +214,14 @@ static void drawMenuCursor(tU8 cursor) {
 }
 
 void errorFun(char *message) {
-  lcdColor(0,0xff); // main BG
-  lcdClrscr();
+	lcdColor(0,0xff); // main BG
+	lcdClrscr();
 
-  lcdGotoxy(30,50);
-  lcdPuts("ERROR"); // menu title
-  printf(message);
+	lcdGotoxy(30,50);
+	lcdPuts("ERROR"); // menu title
+	printf(message);
 }
 //seems useless
 void appTick(tU32 elapsedTime) {
   ms += elapsedTime;
 }
-
